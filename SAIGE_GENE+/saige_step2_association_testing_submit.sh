@@ -91,7 +91,7 @@ do
   famFile=${PROJECT}:path/to/gene_burdens_file/plink_format/ukbb200k_wesQC_chr${chr}_bed.fam
   AlleleOrder=ref-first
   SAIGEOutputFile=saige_step2_association_${TRAIT}_chr${chr}_noPRS
-  sampleFile=ids_afterQC.txt
+  sampleFile=${PROJECT}:path/to/QC_passingIDs/ids_afterQC.txt
   nullmod_prefix=saige_step1_nullmodel_${TRAIT}_noPRS
   sparseGRMFile=saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx
   sparseGRMSampleIDFile=saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx.sampleIDs.txt
