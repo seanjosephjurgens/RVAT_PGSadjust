@@ -1,23 +1,27 @@
 #! /bin/bash
 
-TRAIT_NUM=$1
+# Analyses run on Swiss Army Knife on the UKB RAP
+
+PROJECT="RAP_PROJECT_NAME"
+TRAIT_NUM="TRAIT_NUMBER" # the integer trait number of 65 traits assessed in the current study
 mkdir tmp/
 cd tmp/
 
 echo "READING IN INPUT FILES"
-# Import BOLT files
-dx download exome-seq:sjj/short_projects/PRSadjust/R2/data/BOLT_files/genetic_map_hg19_withX.txt.gz
-dx download exome-seq:sjj/short_projects/PRSadjust/R2/data/BOLT_files/LDSCORE.1000G_EUR.tab.gz
+# Import BOLT files that come with BOLT for running analyses
+dx download ${PROJECT}:path/to/BOLT_files/genetic_map_hg19_withX.txt.gz
+dx download ${PROJECT}:path/to/BOLT_files/LDSCORE.1000G_EUR.tab.gz
 
-# Import genotyping array; 89k version
-dx download exome-seq:sjj/short_projects/PRSadjust/R2/data/step1_genetic/ukbb200k_array_chrall.*
+# Import genotyping array data previously pruned to ~280k array variants
+dx download ${PROJECT}:sjj/short_projects/PRSadjust/R2/data/step1_genetic/ukbb200k_array_chrall.*
 
-# Import bgen format for gene-burdens
-dx download exome-seq:sjj/short_projects/PRSadjust/R2/data/step2_genetic/carrier_files/ukbb200k_wesQC_chrall_carrier.bgen
-dx download exome-seq:sjj/short_projects/PRSadjust/R2/data/step2_genetic/carrier_files/ukbb200k_wesQC_chrall_carrier.sample
+# Import the gene-burdens as saved in bgen format (so each gene collaps/burden is saved as thought being a variant).
+dx download ${PROJECT}:path/to/gene_burdens/in_bgen_format/ukbb200k_wesQC_chrall_carrier.bgen
+dx download ${PROJECT}:path/to/gene_burdens/in_bgen_format/ukbb200k_wesQC_chrall_carrier.sample
 
-# Import pheno/covar file
-dx download exome-seq:sjj/short_projects/PRSadjust/R2/data/pheno/phenofile_wes_total_quantitative_forBOLT.txt
+# Import phenotype and covar file for QCd samples from the initial 200k freeze of UKB, which includes the out-of-sample derived PGS for all traits
+##### The column for the out-of-sample PGS based on lead-SNPs is named according to the format 'PRSclumped_${TRAIT}' in this file
+dx download ${PROJECT}:path/to/phenofile/phenofile_wes_total_quantitative_forBOLT.txt
 
 #### Inputs
 PLINK_FILE=ukbb200k_array_chrall
@@ -141,3 +145,4 @@ cd ..
 rm -rf tmp
 
 echo "MOVING FILES TO PROJECT"
+# When using Swiss Army Knife files will automatically moved to the destination directory
