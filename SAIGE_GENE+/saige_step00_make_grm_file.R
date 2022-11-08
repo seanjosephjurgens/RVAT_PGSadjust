@@ -2,6 +2,7 @@
 
 ### SAIGE-GENE+ requires a PLINK file for step0 which includes very rare variants for fitting of the nullmodel. 
 ### Here, we will use rare variants from the exome sequencing data to add some random rare variation to the PLINK file.
+### THis file need only be created once for a dataset, and then the PLINK files can be generally used for all SAIGE-GENE+ analyses in those samples/dataset
 
 # This script was run interactively using a Jupyter Notebook (R kernell) on the UKB RAP.
 
