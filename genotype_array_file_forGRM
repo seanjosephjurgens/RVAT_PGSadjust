@@ -10,27 +10,10 @@
 
 # Analyses were run in Swiss Army Knife
 
-#! /bin/bash
-
-# Analyses run on Swiss Army Knife on the UKB RAP
-
-PROJECT="RAP_PROJECT_NAME"
-TRAIT_NUM="TRAIT_NUMBER" # the integer trait number of 65 traits assessed in the current study
 mkdir tmp/
 cd tmp/
 
 echo "READING IN INPUT FILES"
-# Import BOLT files that come with BOLT for running analyses
-dx download ${PROJECT}:path/to/BOLT_files/genetic_map_hg19_withX.txt.gz
-dx download ${PROJECT}:path/to/BOLT_files/LDSCORE.1000G_EUR.tab.gz
-
-# Import genotyping array data previously pruned to ~280k array variants
-dx download ${PROJECT}:sjj/short_projects/PRSadjust/R2/data/step1_genetic/ukbb200k_array_chrall.*
-
-# Import the gene-burdens as saved in bgen format (so each gene collaps/burden is saved as thought being a variant).
-dx download ${PROJECT}:path/to/gene_burdens/in_bgen_format/ukbb200k_wesQC_chrall_carrier.bgen
-dx download ${PROJECT}:path/to/gene_burdens/in_bgen_format/ukbb200k_wesQC_chrall_carrier.sample
-
 # Import genotyping array files
 dx download ${PROJECT}:path/to/bed/ukb_cal_chr${chr}_v2.bed # genotyping array bed file 
 dx download ${PROJECT}:path/to/bim/ukb_cal_chr${chr}_v2.bim # genotyping array bim file 
@@ -42,6 +25,7 @@ dx download ${PROJECT}:path/to/QCd_SNPlist/array_snps_pass.snplist
 # Import double-column (IID, FID) file with IDs of samples passing all exome sequencing and genotyping array QC for the initial 200k subset of UKB exomes.
 dx download ${PROJECT}:path/to/QC_passingIDs/ids_double_afterQC_sekIDs.txt
 
+# Extracting passing variants and samples
 for chr in {1..22};
   do plink2 \
   --bed ukb_cal_chr${chr}_v2.bed \ 
@@ -53,6 +37,7 @@ for chr in {1..22};
   --out ukbb200k_array_chr${chr}_inter1 &
 done
 
+# LD pruning variants 
 for chr in {1..22};
   # LD prune for GRM
    plink2 \
@@ -60,7 +45,7 @@ for chr in {1..22};
    --indep-pairwise 500 50 0.2 \
    --out plink2_chr${chr} &
 done
-  
+
 for chr in {1..22};
   plink2 \
   --bfile ukbb200k_array_chr${chr}_inter1 \
@@ -69,6 +54,7 @@ for chr in {1..22};
   --out ukbb200k_array_chr${chr}_pruned &
 done 
 
+# Merging chromosomes into one file
 touch list_beds.txt
 for chr in {2..22}
 do
@@ -76,10 +62,16 @@ do
 done
 
 plink \
---bed ukbb200k_array_chr${chr}_pruned.bed \
---bim ukbb200k_array_chr${chr}_pruned.bim \
---fam ukbb200k_array_chr${chr}_pruned.fam \
+--bed ukbb200k_array_chr1_pruned.bed \
+--bim ukbb200k_array_chr1_pruned.bim \
+--fam ukbb200k_array_chr1_pruned.fam \
 --merge-list list_beds.txt \
 --keep-allele-order \
 --make-bed \
---out ukbb200k_array_chr${chr}_pruned
+--out ../ukbb200k_array_chrall.*
+
+cd ..
+rm -rf tmp/
+
+echo UPLOADING FILES
+# When using Swiss Army Knife output files (in this case ukbb200k_array_chrall.bed, ukbb200k_array_chrall.bim and ukbb200k_array_chrall.fam) will automatically be moved to the 'destination' directory
