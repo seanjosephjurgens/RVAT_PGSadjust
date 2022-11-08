@@ -10,13 +10,45 @@
 
 # Analyses were run in Swiss Army Knife
 
+#! /bin/bash
+
+# Analyses run on Swiss Army Knife on the UKB RAP
+
+PROJECT="RAP_PROJECT_NAME"
+TRAIT_NUM="TRAIT_NUMBER" # the integer trait number of 65 traits assessed in the current study
+mkdir tmp/
+cd tmp/
+
+echo "READING IN INPUT FILES"
+# Import BOLT files that come with BOLT for running analyses
+dx download ${PROJECT}:path/to/BOLT_files/genetic_map_hg19_withX.txt.gz
+dx download ${PROJECT}:path/to/BOLT_files/LDSCORE.1000G_EUR.tab.gz
+
+# Import genotyping array data previously pruned to ~280k array variants
+dx download ${PROJECT}:sjj/short_projects/PRSadjust/R2/data/step1_genetic/ukbb200k_array_chrall.*
+
+# Import the gene-burdens as saved in bgen format (so each gene collaps/burden is saved as thought being a variant).
+dx download ${PROJECT}:path/to/gene_burdens/in_bgen_format/ukbb200k_wesQC_chrall_carrier.bgen
+dx download ${PROJECT}:path/to/gene_burdens/in_bgen_format/ukbb200k_wesQC_chrall_carrier.sample
+
+# Import genotyping array files
+dx download ${PROJECT}:path/to/bed/ukb_cal_chr${chr}_v2.bed # genotyping array bed file 
+dx download ${PROJECT}:path/to/bim/ukb_cal_chr${chr}_v2.bim # genotyping array bim file 
+dx download ${PROJECT}:path/to/fam/ukb708_cal_chr${chr}_v2_s488374.fam # genotyping array fam file 
+
+# Import text file with genotype variants passing initial variant QC 
+dx download ${PROJECT}:path/to/QCd_SNPlist/array_snps_pass.snplist
+
+# Import double-column (IID, FID) file with IDs of samples passing all exome sequencing and genotyping array QC for the initial 200k subset of UKB exomes.
+dx download ${PROJECT}:path/to/QC_passingIDs/ids_double_afterQC_sekIDs.txt
+
 for chr in {1..22};
   do plink2 \
-  --bed /mnt/project/path/to/bed/ukb_cal_chr${chr}_v2.bed \ # genotyping array bed file 
-  --bim /mnt/project/path/to/bim/ukb_snp_chr${chr}_v2.bim \ # genotyping array bim file 
-  --fam /mnt/project/path/to/fam/ukb708_cal_chr${chr}_v2_s488374.fam \ # genotyping array fam file 
-  --keep /mnt/project/path/to/QC_passingIDs/ids_double_afterQC_sekIDs.txt \ # text file (IDs and FIDs) with samples passing all exome and array QC and within the initial 200k UKB release
-  --extract /mnt/project/path/to/QCd_SNPlist/array_snps_pass.snplist \ # text file with variant IDs that pass QC
+  --bed ukb_cal_chr${chr}_v2.bed \ 
+  --bim ukb_snp_chr${chr}_v2.bim \ 
+  --fam ukb708_cal_chr${chr}_v2_s488374.fam \ 
+  --keep ids_double_afterQC_sekIDs.txt \ # text file (IDs and FIDs) with samples passing all exome and array QC and within the initial 200k UKB release
+  --extract array_snps_pass.snplist \ # text file with variant IDs that pass QC
   --make-bed \
   --out ukbb200k_array_chr${chr}_inter1 &
 done
@@ -36,3 +68,18 @@ for chr in {1..22};
   --exclude plink2_chr${chr}.prune.out \
   --out ukbb200k_array_chr${chr}_pruned &
 done 
+
+touch list_beds.txt
+for chr in {2..22}
+do
+  echo ukbb200k_array_chr${chr}_pruned.bed" "ukbb200k_array_chr${chr}_pruned.bim" "ukbb200k_array_chr${chr}_pruned.fam >> list_beds.txt
+done
+
+plink \
+--bed ukbb200k_array_chr${chr}_pruned.bed \
+--bim ukbb200k_array_chr${chr}_pruned.bim \
+--fam ukbb200k_array_chr${chr}_pruned.fam \
+--merge-list list_beds.txt \
+--keep-allele-order \
+--make-bed \
+--out ukbb200k_array_chr${chr}_pruned
