@@ -10,4 +10,4 @@ chmod a+r saige_1.0.9.tar.gz
 # store it in your image folder on DNAnexus
 dx mkdir docker_images
 dx cd docker_images/
-dx upload saige_1.0.9.tar.gz
+dx upload saige_1.0.9.tar.gz --destination path/to/docker/
