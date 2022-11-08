@@ -6,6 +6,6 @@ The scripts are made for use on the UKB DNAnexus RAP (with some adjustments). Pl
 
 The _genotype_array_file_forGRM_ file contains scripts used for pruning and merging of the genotyping array data for use in the genetic relatedness matrices in the mixed effects models.
 
-The _BOLT-LMM_ directory contains bash scripts used for submission of BOLT-LMM analyses on the UKB DNAnexus RAP.
+The _SAIGE_GENE+_ directory contains bash scripts used for submission of SAIGE-GENE+ analyses on the UKB DNAnexus RAP, utilizing speed-optimized sparse mixed-effects models.
 
-The _SAIGE_GENE+_ directory contains bash scripts used for submission of BOLT-LMM analyses on the UKB DNAnexus RAP.
+The _BOLT-LMM_ directory contains bash scripts used for submission of BOLT-LMM analyses on the UKB DNAnexus RAP.
