@@ -23,7 +23,7 @@ dx download ${PROJECT}:path/to/fam/ukb708_cal_chr${chr}_v2_s488374.fam # genotyp
 dx download ${PROJECT}:path/to/QCd_SNPlist/array_snps_pass.snplist
 
 # Import double-column (IID, FID) file with IDs of samples passing all exome sequencing and genotyping array QC for the initial 200k subset of UKB exomes.
-dx download ${PROJECT}:path/to/QC_passingIDs/ids_double_afterQC_sekIDs.txt
+dx download ${PROJECT}:path/to/QC_passingIDs/ids_double_afterQC.txt
 
 # Extracting passing variants and samples
 for chr in {1..22};
@@ -31,7 +31,7 @@ for chr in {1..22};
   --bed ukb_cal_chr${chr}_v2.bed \ 
   --bim ukb_snp_chr${chr}_v2.bim \ 
   --fam ukb708_cal_chr${chr}_v2_s488374.fam \ 
-  --keep ids_double_afterQC_sekIDs.txt \ # text file (IDs and FIDs) with samples passing all exome and array QC and within the initial 200k UKB release
+  --keep ids_double_afterQC.txt \ # text file (IDs and FIDs) with samples passing all exome and array QC and within the initial 200k UKB release
   --extract array_snps_pass.snplist \ # text file with variant IDs that pass QC
   --make-bed \
   --out ukbb200k_array_chr${chr}_inter1 &
