@@ -1,4 +1,4 @@
-## Submission script to submit SAIGE step0 analysis using Swiss Army knife
+## Submission script to submit SAIGE step1 nullmodel fitting using Swiss Army knife
 
 PROJECT="RAP_PROJECT_NAME"
 TRAIT_NUM=TRAIT_NUM # integer trait number you want to analyze from the 65 quantitative traits assessed in our study
@@ -73,6 +73,10 @@ traits=(
 
 TRAIT=${traits[TRAIT_NUM-1]}
 
+#####################
+## No PGS added
+#####################
+
 ### Submit noPRS nullmodel
 instance_type="mem3_ssd1_v2_x4"
 priority=normal
@@ -84,24 +88,24 @@ isCateVarianceRatio=TRUE
 invNormalize=FALSE
 useSparseGRMtoFitNULL=TRUE
 relatednessCutoff=0.05
-phenoFile=phenofile_wes_total_quantitative_forBOLT.txt
-phenoCol=${TRAIT}
 covariatesList=sex,enroll_age,enroll_age2,sequencing_batch,genotyping_array,PC1,PC2,PC3,PC4,PC5,PC6,PC7,PC8,PC9,PC10,PC11,PC12,PC13,PC14,PC15,PC16,PC17,PC18,PC19,PC20
 qCovarColList=sex,sequencing_batch,genotyping_array
 sampleIDCol=IID
-PLINK_for_vr=ukbb200k_all_commonvariantsfromarray_chrall_and_rarevariantsfromWES_chr22_geno0.01
-sparseGRMFile=saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx
-sparseGRMSampleIDFile=saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx.sampleIDs.txt
+PLINK_for_vr=${PROJECT}:path/to/array_data_for_saige/ukbb200k_all_commonvariantsfromarray_chrall_and_rarevariantsfromWES_chr22_geno0.01
+sparseGRMFile=${PROJECT}:path/to/SAIGE_step0_output_files/saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx
+sparseGRMSampleIDFile=${PROJECT}:path/to/SAIGE_step0_output_files/saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx.sampleIDs.txt
+phenoFile=${PROJECT}:path/to/phenofile/phenofile_wes_total_quantitative_forBOLT.txt
+phenoCol=${TRAIT}
 outputPrefix=saige_step1_nullmodel_${TRAIT}_noPRS
 tauInit=0,0 
 
 ~/dx/dx-toolkit/bin/dx run swiss-army-knife \
--iin="${PROJECT}:path/to/array_data_for_saige/${PLINK_for_vr}.bed" \
--iin="${PROJECT}:path/to/array_data_for_saige/${PLINK_for_vr}.bim" \
--iin="${PROJECT}:path/to/array_data_for_saige/${PLINK_for_vr}.fam" \
--iin="${PROJECT}:path/to/phenofile/${phenoFile}" \
--iin="${PROJECT}:sjj/short_projects/PRSadjust/R2/data/SAIGE_files/${sparseGRMFile}" \
--iin="${PROJECT}:sjj/short_projects/PRSadjust/R2/data/SAIGE_files/${sparseGRMSampleIDFile}" \
+-iin="${PLINK_for_vr}.bed" \
+-iin="${PLINK_for_vr}.bim" \
+-iin="${PLINK_for_vr}.fam" \
+-iin="${phenoFile}" \
+-iin="${sparseGRMFile}" \
+-iin="${sparseGRMSampleIDFile}" \
 -icmd="step1_fitNULLGLMM.R --plinkFile=${PLINK_for_vr} --nThreads=${nThreads} --outputPrefix=${outputPrefix} --useSparseGRMtoFitNULL=${useSparseGRMtoFitNULL} --relatednessCutoff=${relatednessCutoff} --sparseGRMFile=${sparseGRMFile} --sparseGRMSampleIDFile=${sparseGRMSampleIDFile} --isCateVarianceRatio=${isCateVarianceRatio} --phenoFile=${phenoFile} --phenoCol=${phenoCol} --covarColList=${covariatesList} --qCovarColList=${qCovarColList} --sampleIDColinphenoFile=${sampleIDCol} --traitType=${traitType} --invNormalize=${invNormalize} --tauInit=${tauInit}" \
 -iimage_file="exome-seq:sjj/docker/saige_1.0.9.tar.gz" \
 --name ${jobname} \
@@ -109,6 +113,11 @@ tauInit=0,0
 --priority ${priority}  \
 --yes \
 --destination ${destination}
+
+
+#####################
+## Out-of-sample scores
+#####################
 
 ### PRSclumped
 instance_type="mem3_ssd1_v2_x4"
@@ -121,25 +130,24 @@ isCateVarianceRatio=TRUE
 invNormalize=FALSE
 useSparseGRMtoFitNULL=TRUE
 relatednessCutoff=0.05
-phenoFile=phenofile_wes_total_quantitative_forBOLT.txt
 phenoCol=${TRAIT}
 covariatesList=PRSclumped_${TRAIT},sex,enroll_age,enroll_age2,sequencing_batch,genotyping_array,PC1,PC2,PC3,PC4,PC5,PC6,PC7,PC8,PC9,PC10,PC11,PC12,PC13,PC14,PC15,PC16,PC17,PC18,PC19,PC20
 qCovarColList=sex,sequencing_batch,genotyping_array
 sampleIDCol=IID
-PLINK_for_vr=ukbb200k_all_commonvariantsfromarray_chrall_and_rarevariantsfromWES_chr22_geno0.01
-sparseGRMFile=saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx
-sparseGRMSampleIDFile=saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx.sampleIDs.txt
-outputPrefix=saige_step1_nullmodel_${TRAIT}_PRSclumped
-tauInit=0,0 # try tauInit=0.9,0 for height
-#tauInit=0.9,0.9
+PLINK_for_vr=${PROJECT}:path/to/array_data_for_saige/ukbb200k_all_commonvariantsfromarray_chrall_and_rarevariantsfromWES_chr22_geno0.01
+sparseGRMFile=${PROJECT}:path/to/SAIGE_step0_output_files/saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx
+sparseGRMSampleIDFile=${PROJECT}:path/to/SAIGE_step0_output_files/saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx.sampleIDs.txt
+phenoFile=${PROJECT}:path/to/phenofile/phenofile_wes_total_quantitative_forBOLT.txt
+phenoCol=${TRAIT}outputPrefix=saige_step1_nullmodel_${TRAIT}_PRSclumped
+tauInit=0,0
 
 ~/dx/dx-toolkit/bin/dx run swiss-army-knife \
--iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/step1_genetic/${PLINK_for_vr}.bed" \
--iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/step1_genetic/${PLINK_for_vr}.bim" \
--iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/step1_genetic/${PLINK_for_vr}.fam" \
--iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/pheno/${phenoFile}" \
--iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/SAIGE_files/${sparseGRMFile}" \
--iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/SAIGE_files/${sparseGRMSampleIDFile}" \
+-iin="${PLINK_for_vr}.bed" \
+-iin="${PLINK_for_vr}.bim" \
+-iin="${PLINK_for_vr}.fam" \
+-iin="${phenoFile}" \
+-iin="${sparseGRMFile}" \
+-iin="${sparseGRMSampleIDFile}" \
 -icmd="step1_fitNULLGLMM.R --plinkFile=${PLINK_for_vr} --nThreads=${nThreads} --outputPrefix=${outputPrefix} --useSparseGRMtoFitNULL=${useSparseGRMtoFitNULL} --relatednessCutoff=${relatednessCutoff} --sparseGRMFile=${sparseGRMFile} --sparseGRMSampleIDFile=${sparseGRMSampleIDFile} --isCateVarianceRatio=${isCateVarianceRatio} --phenoFile=${phenoFile} --phenoCol=${phenoCol} --covarColList=${covariatesList} --qCovarColList=${qCovarColList} --sampleIDColinphenoFile=${sampleIDCol} --traitType=${traitType} --invNormalize=${invNormalize} --tauInit=${tauInit}" \
 -iimage_file="exome-seq:sjj/docker/saige_1.0.9.tar.gz" \
 --name ${jobname} \
@@ -159,25 +167,24 @@ isCateVarianceRatio=TRUE
 invNormalize=FALSE
 useSparseGRMtoFitNULL=TRUE
 relatednessCutoff=0.05
-phenoFile=phenofile_wes_total_quantitative_forBOLT.txt
 phenoCol=${TRAIT}
 covariatesList=PRSprscsauto_${TRAIT},sex,enroll_age,enroll_age2,sequencing_batch,genotyping_array,PC1,PC2,PC3,PC4,PC5,PC6,PC7,PC8,PC9,PC10,PC11,PC12,PC13,PC14,PC15,PC16,PC17,PC18,PC19,PC20
 qCovarColList=sex,sequencing_batch,genotyping_array
 sampleIDCol=IID
-PLINK_for_vr=ukbb200k_all_commonvariantsfromarray_chrall_and_rarevariantsfromWES_chr22_geno0.01
-sparseGRMFile=saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx
-sparseGRMSampleIDFile=saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx.sampleIDs.txt
-outputPrefix=saige_step1_nullmodel_${TRAIT}_PRSprscsauto
-tauInit=0,0 # try tauInit=0.9,0 for height
-#tauInit=0.9,0
+PLINK_for_vr=${PROJECT}:path/to/array_data_for_saige/ukbb200k_all_commonvariantsfromarray_chrall_and_rarevariantsfromWES_chr22_geno0.01
+sparseGRMFile=${PROJECT}:path/to/SAIGE_step0_output_files/saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx
+sparseGRMSampleIDFile=${PROJECT}:path/to/SAIGE_step0_output_files/saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx.sampleIDs.txt
+phenoFile=${PROJECT}:path/to/phenofile/phenofile_wes_total_quantitative_forBOLT.txt
+phenoCol=${TRAIT}outputPrefix=saige_step1_nullmodel_${TRAIT}_PRSprscsauto
+tauInit=0,0 
 
 ~/dx/dx-toolkit/bin/dx run swiss-army-knife \
--iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/step1_genetic/${PLINK_for_vr}.bed" \
--iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/step1_genetic/${PLINK_for_vr}.bim" \
--iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/step1_genetic/${PLINK_for_vr}.fam" \
--iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/pheno/${phenoFile}" \
--iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/SAIGE_files/${sparseGRMFile}" \
--iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/SAIGE_files/${sparseGRMSampleIDFile}" \
+-iin="${PLINK_for_vr}.bed" \
+-iin="${PLINK_for_vr}.bim" \
+-iin="${PLINK_for_vr}.fam" \
+-iin="${phenoFile}" \
+-iin="${sparseGRMFile}" \
+-iin="${sparseGRMSampleIDFile}" \
 -icmd="step1_fitNULLGLMM.R --plinkFile=${PLINK_for_vr} --nThreads=${nThreads} --outputPrefix=${outputPrefix} --useSparseGRMtoFitNULL=${useSparseGRMtoFitNULL} --relatednessCutoff=${relatednessCutoff} --sparseGRMFile=${sparseGRMFile} --sparseGRMSampleIDFile=${sparseGRMSampleIDFile} --isCateVarianceRatio=${isCateVarianceRatio} --phenoFile=${phenoFile} --phenoCol=${phenoCol} --covarColList=${covariatesList} --qCovarColList=${qCovarColList} --sampleIDColinphenoFile=${sampleIDCol} --traitType=${traitType} --invNormalize=${invNormalize} --tauInit=${tauInit}" \
 -iimage_file="exome-seq:sjj/docker/saige_1.0.9.tar.gz" \
 --name ${jobname} \
@@ -185,6 +192,11 @@ tauInit=0,0 # try tauInit=0.9,0 for height
 --priority ${priority}  \
 --yes \
 --destination ${destination}
+
+
+#####################
+## In-sample scores
+#####################
 
 ### PRSclumped_insample
 instance_type="mem3_ssd1_v2_x4"
@@ -197,25 +209,24 @@ isCateVarianceRatio=TRUE
 invNormalize=FALSE
 useSparseGRMtoFitNULL=TRUE
 relatednessCutoff=0.05
-phenoFile=phenofile_wes_total_quantitative_forBOLT_insample.txt
 phenoCol=${TRAIT}
 covariatesList=PRSclumped_${TRAIT},sex,enroll_age,enroll_age2,sequencing_batch,genotyping_array,PC1,PC2,PC3,PC4,PC5,PC6,PC7,PC8,PC9,PC10,PC11,PC12,PC13,PC14,PC15,PC16,PC17,PC18,PC19,PC20
 qCovarColList=sex,sequencing_batch,genotyping_array
 sampleIDCol=IID
-PLINK_for_vr=ukbb200k_all_commonvariantsfromarray_chrall_and_rarevariantsfromWES_chr22_geno0.01
-sparseGRMFile=saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx
-sparseGRMSampleIDFile=saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx.sampleIDs.txt
-outputPrefix=saige_step1_nullmodel_${TRAIT}_PRSclumped_insample
-tauInit=0,0 # try tauInit=0.9,0 for height
-#tauInit=0.9,0.9
+PLINK_for_vr=${PROJECT}:path/to/array_data_for_saige/ukbb200k_all_commonvariantsfromarray_chrall_and_rarevariantsfromWES_chr22_geno0.01
+sparseGRMFile=${PROJECT}:path/to/SAIGE_step0_output_files/saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx
+sparseGRMSampleIDFile=${PROJECT}:path/to/SAIGE_step0_output_files/saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx.sampleIDs.txt
+phenoFile=${PROJECT}:path/to/phenofile/phenofile_wes_total_quantitative_forBOLT.txt
+phenoCol=${TRAIT}outputPrefix=saige_step1_nullmodel_${TRAIT}_PRSclumped_insample
+tauInit=0,0
 
 ~/dx/dx-toolkit/bin/dx run swiss-army-knife \
--iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/step1_genetic/${PLINK_for_vr}.bed" \
--iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/step1_genetic/${PLINK_for_vr}.bim" \
--iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/step1_genetic/${PLINK_for_vr}.fam" \
--iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/pheno/${phenoFile}" \
--iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/SAIGE_files/${sparseGRMFile}" \
--iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/SAIGE_files/${sparseGRMSampleIDFile}" \
+-iin="${PLINK_for_vr}.bed" \
+-iin="${PLINK_for_vr}.bim" \
+-iin="${PLINK_for_vr}.fam" \
+-iin="${phenoFile}" \
+-iin="${sparseGRMFile}" \
+-iin="${sparseGRMSampleIDFile}" \
 -icmd="step1_fitNULLGLMM.R --plinkFile=${PLINK_for_vr} --nThreads=${nThreads} --outputPrefix=${outputPrefix} --useSparseGRMtoFitNULL=${useSparseGRMtoFitNULL} --relatednessCutoff=${relatednessCutoff} --sparseGRMFile=${sparseGRMFile} --sparseGRMSampleIDFile=${sparseGRMSampleIDFile} --isCateVarianceRatio=${isCateVarianceRatio} --phenoFile=${phenoFile} --phenoCol=${phenoCol} --covarColList=${covariatesList} --qCovarColList=${qCovarColList} --sampleIDColinphenoFile=${sampleIDCol} --traitType=${traitType} --invNormalize=${invNormalize} --tauInit=${tauInit}" \
 -iimage_file="exome-seq:sjj/docker/saige_1.0.9.tar.gz" \
 --name ${jobname} \
@@ -235,25 +246,25 @@ isCateVarianceRatio=TRUE
 invNormalize=FALSE
 useSparseGRMtoFitNULL=TRUE
 relatednessCutoff=0.05
-phenoFile=phenofile_wes_total_quantitative_forBOLT_insample.txt
 phenoCol=${TRAIT}
 covariatesList=PRSprscsauto_${TRAIT},sex,enroll_age,enroll_age2,sequencing_batch,genotyping_array,PC1,PC2,PC3,PC4,PC5,PC6,PC7,PC8,PC9,PC10,PC11,PC12,PC13,PC14,PC15,PC16,PC17,PC18,PC19,PC20
 qCovarColList=sex,sequencing_batch,genotyping_array
 sampleIDCol=IID
-PLINK_for_vr=ukbb200k_all_commonvariantsfromarray_chrall_and_rarevariantsfromWES_chr22_geno0.01
-sparseGRMFile=saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx
-sparseGRMSampleIDFile=saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx.sampleIDs.txt
-outputPrefix=saige_step1_nullmodel_${TRAIT}_PRSprscsauto_insample
-tauInit=0,0 # try tauInit=0.9,0 for height
+PLINK_for_vr=${PROJECT}:path/to/array_data_for_saige/ukbb200k_all_commonvariantsfromarray_chrall_and_rarevariantsfromWES_chr22_geno0.01
+sparseGRMFile=${PROJECT}:path/to/SAIGE_step0_output_files/saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx
+sparseGRMSampleIDFile=${PROJECT}:path/to/SAIGE_step0_output_files/saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx.sampleIDs.txt
+phenoFile=${PROJECT}:path/to/phenofile/phenofile_wes_total_quantitative_forBOLT.txt
+phenoCol=${TRAIT}outputPrefix=saige_step1_nullmodel_${TRAIT}_PRSprscsauto_insample
+tauInit=0,0 
 tauInit=0.9,0
 
 ~/dx/dx-toolkit/bin/dx run swiss-army-knife \
--iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/step1_genetic/${PLINK_for_vr}.bed" \
--iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/step1_genetic/${PLINK_for_vr}.bim" \
--iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/step1_genetic/${PLINK_for_vr}.fam" \
--iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/pheno/${phenoFile}" \
--iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/SAIGE_files/${sparseGRMFile}" \
--iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/SAIGE_files/${sparseGRMSampleIDFile}" \
+-iin="${PLINK_for_vr}.bed" \
+-iin="${PLINK_for_vr}.bim" \
+-iin="${PLINK_for_vr}.fam" \
+-iin="${phenoFile}" \
+-iin="${sparseGRMFile}" \
+-iin="${sparseGRMSampleIDFile}" \
 -icmd="step1_fitNULLGLMM.R --plinkFile=${PLINK_for_vr} --nThreads=${nThreads} --outputPrefix=${outputPrefix} --useSparseGRMtoFitNULL=${useSparseGRMtoFitNULL} --relatednessCutoff=${relatednessCutoff} --sparseGRMFile=${sparseGRMFile} --sparseGRMSampleIDFile=${sparseGRMSampleIDFile} --isCateVarianceRatio=${isCateVarianceRatio} --phenoFile=${phenoFile} --phenoCol=${phenoCol} --covarColList=${covariatesList} --qCovarColList=${qCovarColList} --sampleIDColinphenoFile=${sampleIDCol} --traitType=${traitType} --invNormalize=${invNormalize} --tauInit=${tauInit}" \
 -iimage_file="exome-seq:sjj/docker/saige_1.0.9.tar.gz" \
 --name ${jobname} \
