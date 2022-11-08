@@ -92,7 +92,7 @@ do
   AlleleOrder=ref-first
   SAIGEOutputFile=saige_step2_association_${TRAIT}_chr${chr}_noPRS
   sampleFile=${PROJECT}:path/to/QC_passingIDs/ids_afterQC.txt
-  nullmod_prefix=saige_step1_nullmodel_${TRAIT}_noPRS
+  nullmod_prefix=${PROJECT}:path/to/SAIGE_nullmodels/saige_step1_nullmodel_${TRAIT}_noPRS
   sparseGRMFile=saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx
   sparseGRMSampleIDFile=saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx.sampleIDs.txt
   groupFile=SAIGE_GENE_groupingfile_chr${chr}_SAIGE_GENEplus_bed.txt
@@ -111,8 +111,8 @@ do
   -iin="${bimFile}" \
   -iin="${famFile}" \
   -iin="${sampleFile}" \
-  -iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/SAIGE_files/nullmodels/${nullmod_prefix}.rda" \
-  -iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/SAIGE_files/nullmodels/${nullmod_prefix}.varianceRatio.txt" \
+  -iin="${nullmod_prefix}.rda" \
+  -iin="${nullmod_prefix}.varianceRatio.txt" \
   -iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/SAIGE_files/${sparseGRMFile}" \
   -iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/SAIGE_files/${sparseGRMSampleIDFile}" \
   -iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/SAIGE_files/grouping_files/${groupFile}" \
