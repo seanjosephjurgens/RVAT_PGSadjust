@@ -99,7 +99,7 @@ tauInit=0,0
 -iin="${PROJECT}:path/to/array_data_for_saige/${PLINK_for_vr}.bed" \
 -iin="${PROJECT}:path/to/array_data_for_saige/${PLINK_for_vr}.bim" \
 -iin="${PROJECT}:path/to/array_data_for_saige/${PLINK_for_vr}.fam" \
--iin="${PROJECT}:sjj/short_projects/PRSadjust/R2/data/pheno/${phenoFile}" \
+-iin="${PROJECT}:path/to/phenofile/${phenoFile}" \
 -iin="${PROJECT}:sjj/short_projects/PRSadjust/R2/data/SAIGE_files/${sparseGRMFile}" \
 -iin="${PROJECT}:sjj/short_projects/PRSadjust/R2/data/SAIGE_files/${sparseGRMSampleIDFile}" \
 -icmd="step1_fitNULLGLMM.R --plinkFile=${PLINK_for_vr} --nThreads=${nThreads} --outputPrefix=${outputPrefix} --useSparseGRMtoFitNULL=${useSparseGRMtoFitNULL} --relatednessCutoff=${relatednessCutoff} --sparseGRMFile=${sparseGRMFile} --sparseGRMSampleIDFile=${sparseGRMSampleIDFile} --isCateVarianceRatio=${isCateVarianceRatio} --phenoFile=${phenoFile} --phenoCol=${phenoCol} --covarColList=${covariatesList} --qCovarColList=${qCovarColList} --sampleIDColinphenoFile=${sampleIDCol} --traitType=${traitType} --invNormalize=${invNormalize} --tauInit=${tauInit}" \
