@@ -42,7 +42,7 @@ write.table(bimm, file='ukbb200k_array_chrall.bim', col.names=F, row.names=F, qu
 
 
 ###Take independent rare variant subset for addition into GRM file, we will use only chr22 as this comput less expensive
-# extract rare variants maf<0.001; for variance ratio estimation we will take additional QC measures: Variant missingnes <1%, hwe p < 1e-6, chr22
+# extract rare variants maf<0.001
 write.table(paste0('22 20000000 2000000000 1'), file='range.tsv', col.names=F, row.names=F, quote=F)
 system(paste0(' plink2 ',
               ' --bfile ukb23156_c22_v1.genotype_variant_sample_QCed ',
