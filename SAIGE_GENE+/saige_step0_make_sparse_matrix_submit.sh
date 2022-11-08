@@ -12,4 +12,4 @@ PROJECT="RAP_PROJECT_NAME"
 --instance-type mem2_ssd1_v2_x96 \
 --priority normal \
 --yes \
---destination ${RAP_PROJECT_NAME}:path/to/SAIGE_step0_output_files/
+--destination ${PROJECT}:path/to/SAIGE_step0_output_files/
