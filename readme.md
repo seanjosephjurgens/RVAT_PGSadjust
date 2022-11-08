@@ -1,0 +1,1 @@
+Some example scripts for rare variant analysis within the UK Biobank DNAnexus RAP, where we apply PGS adjustment to improve power in rare variant association discovery. Analyses reported in the manuscript: Jurgens, Pirruccello, et al. (2022) Adjusting for common variant polygenic scores improves power in rare variant association analyses. (under consideration). 
