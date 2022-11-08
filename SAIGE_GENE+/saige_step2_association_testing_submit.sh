@@ -72,13 +72,13 @@ traits=(
 )
 
 TRAIT=${traits[TRAIT_NUM-1]}
-  
+
+#####################
+## No PGS added
+#####################
+
 for chr in {1..22};
 do
-  
-  #####################
-  ## No PGS added
-  #####################
 
   ### noPRS
   instance_type="mem3_ssd1_v2_x32"
@@ -93,9 +93,9 @@ do
   SAIGEOutputFile=saige_step2_association_${TRAIT}_chr${chr}_noPRS
   sampleFile=${PROJECT}:path/to/QC_passingIDs/ids_afterQC.txt
   nullmod_prefix=${PROJECT}:path/to/SAIGE_nullmodels/saige_step1_nullmodel_${TRAIT}_noPRS
-  sparseGRMFile=saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx
-  sparseGRMSampleIDFile=saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx.sampleIDs.txt
-  groupFile=SAIGE_GENE_groupingfile_chr${chr}_SAIGE_GENEplus_bed.txt
+  sparseGRMFile=${PROJECT}:path/to/SAIGE_step0_output_files/saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx
+  sparseGRMSampleIDFile=${PROJECT}:path/to/SAIGE_step0_output_files/saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx.sampleIDs.txt
+  groupFile=${PROJECT}:path/to/saige_analysis_grouping_files/SAIGE_GENE_groupingfile_chr${chr}_SAIGE_GENEplus_bed.txt
   maxMAC_in_groupTest=40
   maxMAF_in_groupTest=0.0001
   #minGroupMAC_in_BurdenTest=20
@@ -105,7 +105,7 @@ do
   is_single_in_groupTest=FALSE
   is_no_weight_in_groupTest=FALSE
   annotation_in_groupTest=LOFmiss
-  
+
   ~/dx/dx-toolkit/bin/dx run swiss-army-knife \
   -iin="${bedFile}" \
   -iin="${bimFile}" \
@@ -113,9 +113,9 @@ do
   -iin="${sampleFile}" \
   -iin="${nullmod_prefix}.rda" \
   -iin="${nullmod_prefix}.varianceRatio.txt" \
-  -iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/SAIGE_files/${sparseGRMFile}" \
-  -iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/SAIGE_files/${sparseGRMSampleIDFile}" \
-  -iin="exome-seq:sjj/short_projects/PRSadjust/R2/data/SAIGE_files/grouping_files/${groupFile}" \
+  -iin="${sparseGRMFile}" \
+  -iin="${sparseGRMSampleIDFile}" \
+  -iin="${groupFile}" \
   -icmd="step2_SPAtests.R --bedFile=${bedFile} --bimFile=${bimFile} --famFile=${famFile} --AlleleOrder=${AlleleOrder} --chr=${chr} --SAIGEOutputFile=${SAIGEOutputFile} --minMAF=0 --minMAC=0.5 --sampleFile=${sampleFile} --GMMATmodelFile=${nullmod_prefix}.rda --varianceRatioFile=${nullmod_prefix}.varianceRatio.txt --sparseGRMFile=${sparseGRMFile} --sparseGRMSampleIDFile=${sparseGRMSampleIDFile} --groupFile=${groupFile} --maxMAC_in_groupTest=${maxMAC_in_groupTest} --maxMAF_in_groupTest=${maxMAF_in_groupTest}  --is_output_markerList_in_groupTest=${is_output_markerList_in_groupTest} --LOCO=${LOCO} --is_fastTest=${is_fastTest} --is_single_in_groupTest=${is_single_in_groupTest} --is_no_weight_in_groupTest=${is_no_weight_in_groupTest} --annotation_in_groupTest=${annotation_in_groupTest}" \
   -iimage_file="exome-seq:sjj/docker/saige_1.0.9.tar.gz" \
   --name ${jobname} \
@@ -124,6 +124,8 @@ do
   --yes \
   --destination ${destination}
   
+done
+
   ### PRSclumped
   instance_type="mem3_ssd1_v2_x32"
   priority=normal
