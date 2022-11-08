@@ -13,7 +13,7 @@ dx download ${PROJECT}:path/to/BOLT_files/genetic_map_hg19_withX.txt.gz
 dx download ${PROJECT}:path/to/BOLT_files/LDSCORE.1000G_EUR.tab.gz
 
 # Import genotyping array data previously pruned to ~280k array variants
-dx download ${PROJECT}:sjj/short_projects/PRSadjust/R2/data/step1_genetic/ukbb200k_array_chrall.*
+dx download ${PROJECT}:path/to/pruned_array_data/ukbb200k_array_chrall.*
 
 # Import the gene-burdens as saved in bgen format (so each gene collaps/burden is saved as thought being a variant).
 dx download ${PROJECT}:path/to/gene_burdens/in_bgen_format/ukbb200k_wesQC_chrall_carrier.bgen
