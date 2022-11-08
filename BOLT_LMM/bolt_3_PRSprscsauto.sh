@@ -12,7 +12,7 @@ echo "READING IN INPUT FILES"
 dx download ${PROJECT}:path/to/BOLT_files/genetic_map_hg19_withX.txt.gz
 dx download ${PROJECT}:path/to/BOLT_files/LDSCORE.1000G_EUR.tab.gz
 
-# Import genotyping array data previously pruned to ~280k array variants
+# Import genotyping array data previously pruned to ~280k array variants (see the 'genotype_array_file_forGRM' file from this repos)
 dx download ${PROJECT}:path/to/pruned_array_data/ukbb200k_array_chrall.*
 
 # Import the gene-burdens as saved in bgen format (so each gene collaps/burden is saved as thought being a variant).
