@@ -19,8 +19,8 @@ dx download ${PROJECT}:sjj/short_projects/PRSadjust/R2/data/step1_genetic/ukbb20
 dx download ${PROJECT}:path/to/gene_burdens/in_bgen_format/ukbb200k_wesQC_chrall_carrier.bgen
 dx download ${PROJECT}:path/to/gene_burdens/in_bgen_format/ukbb200k_wesQC_chrall_carrier.sample
 
-# Import phenotype and covar file
-dx download ${PROJECT}:sjj/short_projects/PRSadjust/R2/data/pheno/phenofile_wes_total_quantitative_forBOLT.txt
+# Import phenotype and covar file for QCd samples from the initial 200k freeze of UKB, which includes the out-of-sample derived PGS for all traits
+dx download ${PROJECT}:path/to/phenofile/phenofile_wes_total_quantitative_forBOLT.txt
 
 #### Input names
 PLINK_FILE=ukbb200k_array_chrall
