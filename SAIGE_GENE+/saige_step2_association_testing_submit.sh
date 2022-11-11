@@ -87,15 +87,18 @@ do
   nThreads=30
   SAIGEOutputFile=saige_step2_association_${TRAIT}_chr${chr}_noPRS
   destination=${PROJECT}:path/to/saige_step2_output/chr${chr}/ # output directory
-  bedFile=${PROJECT}:path/to/200k_exome_data/ukb23156_c${chr}_v1.genotype_variant_sample_QCed.bed # exome sequencing QCd dataset
-  bimFile=${PROJECT}:path/to/200k_exome_data/ukb23156_c${chr}_v1.genotype_variant_sample_QCed.bim # exome sequencing QCd dataset
-  famFile=${PROJECT}:path/to/200k_exome_data/ukb23156_c${chr}_v1.genotype_variant_sample_QCed.fam # exome sequencing QCd dataset
+  plinkFile=ukb23156_c${chr}_v1.genotype_variant_sample_QCed # exome sequencing QCd dataset
+  plinkFile_path=${PROJECT}:path/to/200k_exome_data/
   AlleleOrder=ref-first
-  sampleFile=${PROJECT}:path/to/QC_passingIDs/ids_afterQC.txt # exome sequencing QCd sample IDs (single col)
-  nullmod_prefix=${PROJECT}:path/to/SAIGE_nullmodels/saige_step1_nullmodel_${TRAIT}_noPRS # SAIGE-GENE+ nullmodels
-  sparseGRMFile=${PROJECT}:path/to/SAIGE_step0_output_files/saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx # SAIGE-GENE+ sparse matrix file from step 0
-  sparseGRMSampleIDFile=${PROJECT}:path/to/SAIGE_step0_output_files/saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx.sampleIDs.txt # SAIGE-GENE+ sparse matrix IDs from step 0
-  groupFile=${PROJECT}:path/to/saige_analysis_grouping_files/SAIGE_GENE_groupingfile_chr${chr}_SAIGE_GENEplus_bed.txt # SAIGE-GENE+ formatted grouping files
+  sampleFile=ids_afterQC.txt # exome sequencing QCd sample IDs (single col)
+  sampleFile_path=${PROJECT}:path/to/QC_passingIDs/
+  nullmod_prefix=saige_step1_nullmodel_${TRAIT}_noPRS # SAIGE-GENE+ nullmodels
+  nullmod_prefix_path=${PROJECT}:path/to/SAIGE_nullmodels/
+  sparseGRMFile=saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx # SAIGE-GENE+ sparse matrix file from step 0
+  sparseGRMSampleIDFile=saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx.sampleIDs.txt # SAIGE-GENE+ sparse matrix IDs from step 0
+  sparseGRMFile_path=${PROJECT}:path/to/SAIGE_step0_output_files/
+  groupFile=SAIGE_GENE_groupingfile_chr${chr}_SAIGE_GENEplus_bed.txt # SAIGE-GENE+ formatted grouping files
+  groupFile_path=${PROJECT}:path/to/saige_analysis_grouping_files/
   maxMAC_in_groupTest=40
   maxMAF_in_groupTest=0.0001
   #minGroupMAC_in_BurdenTest=20
@@ -106,17 +109,17 @@ do
   is_no_weight_in_groupTest=FALSE
   annotation_in_groupTest=LOFmiss
 
-  ~/dx/dx-toolkit/bin/dx run swiss-army-knife \
-  -iin="${bedFile}" \
-  -iin="${bimFile}" \
-  -iin="${famFile}" \
-  -iin="${sampleFile}" \
-  -iin="${nullmod_prefix}.rda" \
-  -iin="${nullmod_prefix}.varianceRatio.txt" \
-  -iin="${sparseGRMFile}" \
-  -iin="${sparseGRMSampleIDFile}" \
-  -iin="${groupFile}" \
-  -icmd="step2_SPAtests.R --bedFile=${bedFile} --bimFile=${bimFile} --famFile=${famFile} --AlleleOrder=${AlleleOrder} --chr=${chr} --SAIGEOutputFile=${SAIGEOutputFile} --minMAF=0 --minMAC=0.5 --sampleFile=${sampleFile} --GMMATmodelFile=${nullmod_prefix}.rda --varianceRatioFile=${nullmod_prefix}.varianceRatio.txt --sparseGRMFile=${sparseGRMFile} --sparseGRMSampleIDFile=${sparseGRMSampleIDFile} --groupFile=${groupFile} --maxMAC_in_groupTest=${maxMAC_in_groupTest} --maxMAF_in_groupTest=${maxMAF_in_groupTest}  --is_output_markerList_in_groupTest=${is_output_markerList_in_groupTest} --LOCO=${LOCO} --is_fastTest=${is_fastTest} --is_single_in_groupTest=${is_single_in_groupTest} --is_no_weight_in_groupTest=${is_no_weight_in_groupTest} --annotation_in_groupTest=${annotation_in_groupTest}" \
+  dx run swiss-army-knife \
+  -iin="${plinkFile_path}${plinkFile}.bed" \
+  -iin="${plinkFile_path}${plinkFile}.bim" \
+  -iin="${plinkFile_path}${plinkFile}.fam" \
+  -iin="${sampleFile_path}${sampleFile}" \
+  -iin="${nullmod_prefix_path}${nullmod_prefix}.rda" \
+  -iin="${nullmod_prefix_path}${nullmod_prefix}.varianceRatio.txt" \
+  -iin="${sparseGRMFile_path}${sparseGRMFile}" \
+  -iin="${sparseGRMFile_path}${sparseGRMSampleIDFile}" \
+  -iin="${groupFile_path}${groupFile}" \
+  -icmd="step2_SPAtests.R --bedFile=${plinkFile}.bed --bimFile=${plinkFile}.bim --famFile=${plinkFile}.fam --AlleleOrder=${AlleleOrder} --chr=${chr} --SAIGEOutputFile=${SAIGEOutputFile} --minMAF=0 --minMAC=0.5 --sampleFile=${sampleFile} --GMMATmodelFile=${nullmod_prefix}.rda --varianceRatioFile=${nullmod_prefix}.varianceRatio.txt --sparseGRMFile=${sparseGRMFile} --sparseGRMSampleIDFile=${sparseGRMSampleIDFile} --groupFile=${groupFile} --maxMAC_in_groupTest=${maxMAC_in_groupTest} --maxMAF_in_groupTest=${maxMAF_in_groupTest}  --is_output_markerList_in_groupTest=${is_output_markerList_in_groupTest} --LOCO=${LOCO} --is_fastTest=${is_fastTest} --is_single_in_groupTest=${is_single_in_groupTest} --is_no_weight_in_groupTest=${is_no_weight_in_groupTest} --annotation_in_groupTest=${annotation_in_groupTest}" \
   -iimage_file="exome-seq:sjj/docker/saige_1.0.9.tar.gz" \
   --name ${jobname} \
   --instance-type ${instance_type} \
@@ -139,15 +142,18 @@ do
   nThreads=30
   SAIGEOutputFile=saige_step2_association_${TRAIT}_chr${chr}_PRSclumped
   destination=${PROJECT}:path/to/saige_step2_output/chr${chr}/ # output directory
-  bedFile=${PROJECT}:path/to/200k_exome_data/ukb23156_c${chr}_v1.genotype_variant_sample_QCed.bed # exome sequencing QCd dataset
-  bimFile=${PROJECT}:path/to/200k_exome_data/ukb23156_c${chr}_v1.genotype_variant_sample_QCed.bim # exome sequencing QCd dataset
-  famFile=${PROJECT}:path/to/200k_exome_data/ukb23156_c${chr}_v1.genotype_variant_sample_QCed.fam # exome sequencing QCd dataset
+  plinkFile=ukb23156_c${chr}_v1.genotype_variant_sample_QCed # exome sequencing QCd dataset
+  plinkFile_path=${PROJECT}:path/to/200k_exome_data/
   AlleleOrder=ref-first
-  sampleFile=${PROJECT}:path/to/QC_passingIDs/ids_afterQC.txt # exome sequencing QCd sample IDs (single col)
-  nullmod_prefix=${PROJECT}:path/to/SAIGE_nullmodels/saige_step1_nullmodel_${TRAIT}_PRSclumped # SAIGE-GENE+ nullmodels
-  sparseGRMFile=${PROJECT}:path/to/SAIGE_step0_output_files/saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx # SAIGE-GENE+ sparse matrix file from step 0
-  sparseGRMSampleIDFile=${PROJECT}:path/to/SAIGE_step0_output_files/saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx.sampleIDs.txt # SAIGE-GENE+ sparse matrix IDs from step 0
-  groupFile=${PROJECT}:path/to/saige_analysis_grouping_files/SAIGE_GENE_groupingfile_chr${chr}_SAIGE_GENEplus_bed.txt # SAIGE-GENE+ formatted grouping files
+  sampleFile=ids_afterQC.txt # exome sequencing QCd sample IDs (single col)
+  sampleFile_path=${PROJECT}:path/to/QC_passingIDs/
+  nullmod_prefix=saige_step1_nullmodel_${TRAIT}_PRSclumped # SAIGE-GENE+ nullmodels
+  nullmod_prefix_path=${PROJECT}:path/to/SAIGE_nullmodels/
+  sparseGRMFile=saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx # SAIGE-GENE+ sparse matrix file from step 0
+  sparseGRMSampleIDFile=saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx.sampleIDs.txt # SAIGE-GENE+ sparse matrix IDs from step 0
+  sparseGRMFile_path=${PROJECT}:path/to/SAIGE_step0_output_files/
+  groupFile=SAIGE_GENE_groupingfile_chr${chr}_SAIGE_GENEplus_bed.txt # SAIGE-GENE+ formatted grouping files
+  groupFile_path=${PROJECT}:path/to/saige_analysis_grouping_files/  
   maxMAC_in_groupTest=40
   maxMAF_in_groupTest=0.0001
   #minGroupMAC_in_BurdenTest=20
@@ -158,17 +164,17 @@ do
   is_no_weight_in_groupTest=FALSE
   annotation_in_groupTest=LOFmiss
   
-  ~/dx/dx-toolkit/bin/dx run swiss-army-knife \
-  -iin="${bedFile}" \
-  -iin="${bimFile}" \
-  -iin="${famFile}" \
-  -iin="${sampleFile}" \
-  -iin="${nullmod_prefix}.rda" \
-  -iin="${nullmod_prefix}.varianceRatio.txt" \
-  -iin="${sparseGRMFile}" \
-  -iin="${sparseGRMSampleIDFile}" \
-  -iin="${groupFile}" \
-  -icmd="step2_SPAtests.R --bedFile=${bedFile} --bimFile=${bimFile} --famFile=${famFile} --AlleleOrder=${AlleleOrder} --chr=${chr} --SAIGEOutputFile=${SAIGEOutputFile} --minMAF=0 --minMAC=0.5 --sampleFile=${sampleFile} --GMMATmodelFile=${nullmod_prefix}.rda --varianceRatioFile=${nullmod_prefix}.varianceRatio.txt --sparseGRMFile=${sparseGRMFile} --sparseGRMSampleIDFile=${sparseGRMSampleIDFile} --groupFile=${groupFile} --maxMAC_in_groupTest=${maxMAC_in_groupTest} --maxMAF_in_groupTest=${maxMAF_in_groupTest}  --is_output_markerList_in_groupTest=${is_output_markerList_in_groupTest} --LOCO=${LOCO} --is_fastTest=${is_fastTest} --is_single_in_groupTest=${is_single_in_groupTest} --is_no_weight_in_groupTest=${is_no_weight_in_groupTest} --annotation_in_groupTest=${annotation_in_groupTest}" \
+  dx run swiss-army-knife \
+  -iin="${plinkFile_path}${plinkFile}.bed" \
+  -iin="${plinkFile_path}${plinkFile}.bim" \
+  -iin="${plinkFile_path}${plinkFile}.fam" \
+  -iin="${sampleFile_path}${sampleFile}" \
+  -iin="${nullmod_prefix_path}${nullmod_prefix}.rda" \
+  -iin="${nullmod_prefix_path}${nullmod_prefix}.varianceRatio.txt" \
+  -iin="${sparseGRMFile_path}${sparseGRMFile}" \
+  -iin="${sparseGRMFile_path}${sparseGRMSampleIDFile}" \
+  -iin="${groupFile_path}${groupFile}" \
+  -icmd="step2_SPAtests.R --bedFile=${plinkFile}.bed --bimFile=${plinkFile}.bim --famFile=${plinkFile}.fam --AlleleOrder=${AlleleOrder} --chr=${chr} --SAIGEOutputFile=${SAIGEOutputFile} --minMAF=0 --minMAC=0.5 --sampleFile=${sampleFile} --GMMATmodelFile=${nullmod_prefix}.rda --varianceRatioFile=${nullmod_prefix}.varianceRatio.txt --sparseGRMFile=${sparseGRMFile} --sparseGRMSampleIDFile=${sparseGRMSampleIDFile} --groupFile=${groupFile} --maxMAC_in_groupTest=${maxMAC_in_groupTest} --maxMAF_in_groupTest=${maxMAF_in_groupTest}  --is_output_markerList_in_groupTest=${is_output_markerList_in_groupTest} --LOCO=${LOCO} --is_fastTest=${is_fastTest} --is_single_in_groupTest=${is_single_in_groupTest} --is_no_weight_in_groupTest=${is_no_weight_in_groupTest} --annotation_in_groupTest=${annotation_in_groupTest}" \
   -iimage_file="exome-seq:sjj/docker/saige_1.0.9.tar.gz" \
   --name ${jobname} \
   --instance-type ${instance_type} \
@@ -183,15 +189,18 @@ do
   nThreads=30
   SAIGEOutputFile=saige_step2_association_${TRAIT}_chr${chr}_PRSprscsauto
   destination=${PROJECT}:path/to/saige_step2_output/chr${chr}/ # output directory
-  bedFile=${PROJECT}:path/to/200k_exome_data/ukb23156_c${chr}_v1.genotype_variant_sample_QCed.bed # exome sequencing QCd dataset
-  bimFile=${PROJECT}:path/to/200k_exome_data/ukb23156_c${chr}_v1.genotype_variant_sample_QCed.bim # exome sequencing QCd dataset
-  famFile=${PROJECT}:path/to/200k_exome_data/ukb23156_c${chr}_v1.genotype_variant_sample_QCed.fam # exome sequencing QCd dataset
+  plinkFile=ukb23156_c${chr}_v1.genotype_variant_sample_QCed # exome sequencing QCd dataset
+  plinkFile_path=${PROJECT}:path/to/200k_exome_data/
   AlleleOrder=ref-first
-  sampleFile=${PROJECT}:path/to/QC_passingIDs/ids_afterQC.txt # exome sequencing QCd sample IDs (single col)
-  nullmod_prefix=${PROJECT}:path/to/SAIGE_nullmodels/saige_step1_nullmodel_${TRAIT}_PRSprscsauto # SAIGE-GENE+ nullmodels
-  sparseGRMFile=${PROJECT}:path/to/SAIGE_step0_output_files/saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx # SAIGE-GENE+ sparse matrix file from step 0
-  sparseGRMSampleIDFile=${PROJECT}:path/to/SAIGE_step0_output_files/saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx.sampleIDs.txt # SAIGE-GENE+ sparse matrix IDs from step 0
-  groupFile=${PROJECT}:path/to/saige_analysis_grouping_files/SAIGE_GENE_groupingfile_chr${chr}_SAIGE_GENEplus_bed.txt # SAIGE-GENE+ formatted grouping files
+  sampleFile=ids_afterQC.txt # exome sequencing QCd sample IDs (single col)
+  sampleFile_path=${PROJECT}:path/to/QC_passingIDs/
+  nullmod_prefix=saige_step1_nullmodel_${TRAIT}_PRSprscsauto # SAIGE-GENE+ nullmodels
+  nullmod_prefix_path=${PROJECT}:path/to/SAIGE_nullmodels/
+  sparseGRMFile=saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx # SAIGE-GENE+ sparse matrix file from step 0
+  sparseGRMSampleIDFile=saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx.sampleIDs.txt # SAIGE-GENE+ sparse matrix IDs from step 0
+  sparseGRMFile_path=${PROJECT}:path/to/SAIGE_step0_output_files/
+  groupFile=SAIGE_GENE_groupingfile_chr${chr}_SAIGE_GENEplus_bed.txt # SAIGE-GENE+ formatted grouping files
+  groupFile_path=${PROJECT}:path/to/saige_analysis_grouping_files/  
   maxMAC_in_groupTest=40
   maxMAF_in_groupTest=0.0001
   #minGroupMAC_in_BurdenTest=20
@@ -202,17 +211,17 @@ do
   is_no_weight_in_groupTest=FALSE
   annotation_in_groupTest=LOFmiss
   
-  ~/dx/dx-toolkit/bin/dx run swiss-army-knife \
-  -iin="${bedFile}" \
-  -iin="${bimFile}" \
-  -iin="${famFile}" \
-  -iin="${sampleFile}" \
-  -iin="${nullmod_prefix}.rda" \
-  -iin="${nullmod_prefix}.varianceRatio.txt" \
-  -iin="${sparseGRMFile}" \
-  -iin="${sparseGRMSampleIDFile}" \
-  -iin="${groupFile}" \
-  -icmd="step2_SPAtests.R --bedFile=${bedFile} --bimFile=${bimFile} --famFile=${famFile} --AlleleOrder=${AlleleOrder} --chr=${chr} --SAIGEOutputFile=${SAIGEOutputFile} --minMAF=0 --minMAC=0.5 --sampleFile=${sampleFile} --GMMATmodelFile=${nullmod_prefix}.rda --varianceRatioFile=${nullmod_prefix}.varianceRatio.txt --sparseGRMFile=${sparseGRMFile} --sparseGRMSampleIDFile=${sparseGRMSampleIDFile} --groupFile=${groupFile} --maxMAC_in_groupTest=${maxMAC_in_groupTest} --maxMAF_in_groupTest=${maxMAF_in_groupTest}  --is_output_markerList_in_groupTest=${is_output_markerList_in_groupTest} --LOCO=${LOCO} --is_fastTest=${is_fastTest} --is_single_in_groupTest=${is_single_in_groupTest} --is_no_weight_in_groupTest=${is_no_weight_in_groupTest} --annotation_in_groupTest=${annotation_in_groupTest}" \
+  dx run swiss-army-knife \
+  -iin="${plinkFile_path}${plinkFile}.bed" \
+  -iin="${plinkFile_path}${plinkFile}.bim" \
+  -iin="${plinkFile_path}${plinkFile}.fam" \
+  -iin="${sampleFile_path}${sampleFile}" \
+  -iin="${nullmod_prefix_path}${nullmod_prefix}.rda" \
+  -iin="${nullmod_prefix_path}${nullmod_prefix}.varianceRatio.txt" \
+  -iin="${sparseGRMFile_path}${sparseGRMFile}" \
+  -iin="${sparseGRMFile_path}${sparseGRMSampleIDFile}" \
+  -iin="${groupFile_path}${groupFile}" \
+  -icmd="step2_SPAtests.R --bedFile=${plinkFile}.bed --bimFile=${plinkFile}.bim --famFile=${plinkFile}.fam --AlleleOrder=${AlleleOrder} --chr=${chr} --SAIGEOutputFile=${SAIGEOutputFile} --minMAF=0 --minMAC=0.5 --sampleFile=${sampleFile} --GMMATmodelFile=${nullmod_prefix}.rda --varianceRatioFile=${nullmod_prefix}.varianceRatio.txt --sparseGRMFile=${sparseGRMFile} --sparseGRMSampleIDFile=${sparseGRMSampleIDFile} --groupFile=${groupFile} --maxMAC_in_groupTest=${maxMAC_in_groupTest} --maxMAF_in_groupTest=${maxMAF_in_groupTest}  --is_output_markerList_in_groupTest=${is_output_markerList_in_groupTest} --LOCO=${LOCO} --is_fastTest=${is_fastTest} --is_single_in_groupTest=${is_single_in_groupTest} --is_no_weight_in_groupTest=${is_no_weight_in_groupTest} --annotation_in_groupTest=${annotation_in_groupTest}" \
   -iimage_file="exome-seq:sjj/docker/saige_1.0.9.tar.gz" \
   --name ${jobname} \
   --instance-type ${instance_type} \
@@ -237,15 +246,18 @@ do
   nThreads=30
   SAIGEOutputFile=saige_step2_association_${TRAIT}_chr${chr}_PRSclumped_insample
   destination=${PROJECT}:path/to/saige_step2_output/chr${chr}/ # output directory
-  bedFile=${PROJECT}:path/to/200k_exome_data/ukb23156_c${chr}_v1.genotype_variant_sample_QCed.bed # exome sequencing QCd dataset
-  bimFile=${PROJECT}:path/to/200k_exome_data/ukb23156_c${chr}_v1.genotype_variant_sample_QCed.bim # exome sequencing QCd dataset
-  famFile=${PROJECT}:path/to/200k_exome_data/ukb23156_c${chr}_v1.genotype_variant_sample_QCed.fam # exome sequencing QCd dataset
+  plinkFile=ukb23156_c${chr}_v1.genotype_variant_sample_QCed # exome sequencing QCd dataset
+  plinkFile_path=${PROJECT}:path/to/200k_exome_data/
   AlleleOrder=ref-first
-  sampleFile=${PROJECT}:path/to/QC_passingIDs/ids_afterQC.txt # exome sequencing QCd sample IDs (single col)
-  nullmod_prefix=${PROJECT}:path/to/SAIGE_nullmodels/saige_step1_nullmodel_${TRAIT}_PRSclumped_insample # SAIGE-GENE+ nullmodels
-  sparseGRMFile=${PROJECT}:path/to/SAIGE_step0_output_files/saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx # SAIGE-GENE+ sparse matrix file from step 0
-  sparseGRMSampleIDFile=${PROJECT}:path/to/SAIGE_step0_output_files/saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx.sampleIDs.txt # SAIGE-GENE+ sparse matrix IDs from step 0
-  groupFile=${PROJECT}:path/to/saige_analysis_grouping_files/SAIGE_GENE_groupingfile_chr${chr}_SAIGE_GENEplus_bed.txt # SAIGE-GENE+ formatted grouping files
+  sampleFile=ids_afterQC.txt # exome sequencing QCd sample IDs (single col)
+  sampleFile_path=${PROJECT}:path/to/QC_passingIDs/
+  nullmod_prefix=saige_step1_nullmodel_${TRAIT}_PRSclumped_insample # SAIGE-GENE+ nullmodels
+  nullmod_prefix_path=${PROJECT}:path/to/SAIGE_nullmodels/
+  sparseGRMFile=saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx # SAIGE-GENE+ sparse matrix file from step 0
+  sparseGRMSampleIDFile=saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx.sampleIDs.txt # SAIGE-GENE+ sparse matrix IDs from step 0
+  sparseGRMFile_path=${PROJECT}:path/to/SAIGE_step0_output_files/
+  groupFile=SAIGE_GENE_groupingfile_chr${chr}_SAIGE_GENEplus_bed.txt # SAIGE-GENE+ formatted grouping files
+  groupFile_path=${PROJECT}:path/to/saige_analysis_grouping_files/  
   maxMAC_in_groupTest=40
   maxMAF_in_groupTest=0.0001
   #minGroupMAC_in_BurdenTest=20
@@ -256,17 +268,17 @@ do
   is_no_weight_in_groupTest=FALSE
   annotation_in_groupTest=LOFmiss
   
-  ~/dx/dx-toolkit/bin/dx run swiss-army-knife \
-  -iin="${bedFile}" \
-  -iin="${bimFile}" \
-  -iin="${famFile}" \
-  -iin="${sampleFile}" \
-  -iin="${nullmod_prefix}.rda" \
-  -iin="${nullmod_prefix}.varianceRatio.txt" \
-  -iin="${sparseGRMFile}" \
-  -iin="${sparseGRMSampleIDFile}" \
-  -iin="${groupFile}" \
-  -icmd="step2_SPAtests.R --bedFile=${bedFile} --bimFile=${bimFile} --famFile=${famFile} --AlleleOrder=${AlleleOrder} --chr=${chr} --SAIGEOutputFile=${SAIGEOutputFile} --minMAF=0 --minMAC=0.5 --sampleFile=${sampleFile} --GMMATmodelFile=${nullmod_prefix}.rda --varianceRatioFile=${nullmod_prefix}.varianceRatio.txt --sparseGRMFile=${sparseGRMFile} --sparseGRMSampleIDFile=${sparseGRMSampleIDFile} --groupFile=${groupFile} --maxMAC_in_groupTest=${maxMAC_in_groupTest} --maxMAF_in_groupTest=${maxMAF_in_groupTest}  --is_output_markerList_in_groupTest=${is_output_markerList_in_groupTest} --LOCO=${LOCO} --is_fastTest=${is_fastTest} --is_single_in_groupTest=${is_single_in_groupTest} --is_no_weight_in_groupTest=${is_no_weight_in_groupTest} --annotation_in_groupTest=${annotation_in_groupTest}" \
+  dx run swiss-army-knife \
+  -iin="${plinkFile_path}${plinkFile}.bed" \
+  -iin="${plinkFile_path}${plinkFile}.bim" \
+  -iin="${plinkFile_path}${plinkFile}.fam" \
+  -iin="${sampleFile_path}${sampleFile}" \
+  -iin="${nullmod_prefix_path}${nullmod_prefix}.rda" \
+  -iin="${nullmod_prefix_path}${nullmod_prefix}.varianceRatio.txt" \
+  -iin="${sparseGRMFile_path}${sparseGRMFile}" \
+  -iin="${sparseGRMFile_path}${sparseGRMSampleIDFile}" \
+  -iin="${groupFile_path}${groupFile}" \
+  -icmd="step2_SPAtests.R --bedFile=${plinkFile}.bed --bimFile=${plinkFile}.bim --famFile=${plinkFile}.fam --AlleleOrder=${AlleleOrder} --chr=${chr} --SAIGEOutputFile=${SAIGEOutputFile} --minMAF=0 --minMAC=0.5 --sampleFile=${sampleFile} --GMMATmodelFile=${nullmod_prefix}.rda --varianceRatioFile=${nullmod_prefix}.varianceRatio.txt --sparseGRMFile=${sparseGRMFile} --sparseGRMSampleIDFile=${sparseGRMSampleIDFile} --groupFile=${groupFile} --maxMAC_in_groupTest=${maxMAC_in_groupTest} --maxMAF_in_groupTest=${maxMAF_in_groupTest}  --is_output_markerList_in_groupTest=${is_output_markerList_in_groupTest} --LOCO=${LOCO} --is_fastTest=${is_fastTest} --is_single_in_groupTest=${is_single_in_groupTest} --is_no_weight_in_groupTest=${is_no_weight_in_groupTest} --annotation_in_groupTest=${annotation_in_groupTest}" \
   -iimage_file="exome-seq:sjj/docker/saige_1.0.9.tar.gz" \
   --name ${jobname} \
   --instance-type ${instance_type} \
@@ -281,15 +293,18 @@ do
   nThreads=30
   SAIGEOutputFile=saige_step2_association_${TRAIT}_chr${chr}_PRSprscsauto_insample
   destination=${PROJECT}:path/to/saige_step2_output/chr${chr}/ # output directory
-  bedFile=${PROJECT}:path/to/200k_exome_data/ukb23156_c${chr}_v1.genotype_variant_sample_QCed.bed # exome sequencing QCd dataset
-  bimFile=${PROJECT}:path/to/200k_exome_data/ukb23156_c${chr}_v1.genotype_variant_sample_QCed.bim # exome sequencing QCd dataset
-  famFile=${PROJECT}:path/to/200k_exome_data/ukb23156_c${chr}_v1.genotype_variant_sample_QCed.fam # exome sequencing QCd dataset
+  plinkFile=ukb23156_c${chr}_v1.genotype_variant_sample_QCed # exome sequencing QCd dataset
+  plinkFile_path=${PROJECT}:path/to/200k_exome_data/
   AlleleOrder=ref-first
-  sampleFile=${PROJECT}:path/to/QC_passingIDs/ids_afterQC.txt # exome sequencing QCd sample IDs (single col)
-  nullmod_prefix=${PROJECT}:path/to/SAIGE_nullmodels/saige_step1_nullmodel_${TRAIT}_PRSprscsauto_insample # SAIGE-GENE+ nullmodels
-  sparseGRMFile=${PROJECT}:path/to/SAIGE_step0_output_files/saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx # SAIGE-GENE+ sparse matrix file from step 0
-  sparseGRMSampleIDFile=${PROJECT}:path/to/SAIGE_step0_output_files/saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx.sampleIDs.txt # SAIGE-GENE+ sparse matrix IDs from step 0
-  groupFile=${PROJECT}:path/to/saige_analysis_grouping_files/SAIGE_GENE_groupingfile_chr${chr}_SAIGE_GENEplus_bed.txt # SAIGE-GENE+ formatted grouping files
+  sampleFile=ids_afterQC.txt # exome sequencing QCd sample IDs (single col)
+  sampleFile_path=${PROJECT}:path/to/QC_passingIDs/
+  nullmod_prefix=saige_step1_nullmodel_${TRAIT}_PRSprscsauto_insample # SAIGE-GENE+ nullmodels
+  nullmod_prefix_path=${PROJECT}:path/to/SAIGE_nullmodels/
+  sparseGRMFile=saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx # SAIGE-GENE+ sparse matrix file from step 0
+  sparseGRMSampleIDFile=saige_sparse_matrix_relatednessCutoff_0.05_5000_randomMarkersUsed.sparseGRM.mtx.sampleIDs.txt # SAIGE-GENE+ sparse matrix IDs from step 0
+  sparseGRMFile_path=${PROJECT}:path/to/SAIGE_step0_output_files/
+  groupFile=SAIGE_GENE_groupingfile_chr${chr}_SAIGE_GENEplus_bed.txt # SAIGE-GENE+ formatted grouping files
+  groupFile_path=${PROJECT}:path/to/saige_analysis_grouping_files/  
   maxMAC_in_groupTest=40
   maxMAF_in_groupTest=0.0001
   #minGroupMAC_in_BurdenTest=20
@@ -300,17 +315,17 @@ do
   is_no_weight_in_groupTest=FALSE
   annotation_in_groupTest=LOFmiss
   
-  ~/dx/dx-toolkit/bin/dx run swiss-army-knife \
-  -iin="${bedFile}" \
-  -iin="${bimFile}" \
-  -iin="${famFile}" \
-  -iin="${sampleFile}" \
-  -iin="${nullmod_prefix}.rda" \
-  -iin="${nullmod_prefix}.varianceRatio.txt" \
-  -iin="${sparseGRMFile}" \
-  -iin="${sparseGRMSampleIDFile}" \
-  -iin="${groupFile}" \
-  -icmd="step2_SPAtests.R --bedFile=${bedFile} --bimFile=${bimFile} --famFile=${famFile} --AlleleOrder=${AlleleOrder} --chr=${chr} --SAIGEOutputFile=${SAIGEOutputFile} --minMAF=0 --minMAC=0.5 --sampleFile=${sampleFile} --GMMATmodelFile=${nullmod_prefix}.rda --varianceRatioFile=${nullmod_prefix}.varianceRatio.txt --sparseGRMFile=${sparseGRMFile} --sparseGRMSampleIDFile=${sparseGRMSampleIDFile} --groupFile=${groupFile} --maxMAC_in_groupTest=${maxMAC_in_groupTest} --maxMAF_in_groupTest=${maxMAF_in_groupTest} --is_output_markerList_in_groupTest=${is_output_markerList_in_groupTest} --LOCO=${LOCO} --is_fastTest=${is_fastTest} --is_single_in_groupTest=${is_single_in_groupTest} --is_no_weight_in_groupTest=${is_no_weight_in_groupTest} --annotation_in_groupTest=${annotation_in_groupTest}" \
+  dx run swiss-army-knife \
+  -iin="${plinkFile_path}${plinkFile}.bed" \
+  -iin="${plinkFile_path}${plinkFile}.bim" \
+  -iin="${plinkFile_path}${plinkFile}.fam" \
+  -iin="${sampleFile_path}${sampleFile}" \
+  -iin="${nullmod_prefix_path}${nullmod_prefix}.rda" \
+  -iin="${nullmod_prefix_path}${nullmod_prefix}.varianceRatio.txt" \
+  -iin="${sparseGRMFile_path}${sparseGRMFile}" \
+  -iin="${sparseGRMFile_path}${sparseGRMSampleIDFile}" \
+  -iin="${groupFile_path}${groupFile}" \
+  -icmd="step2_SPAtests.R --bedFile=${plinkFile}.bed --bimFile=${plinkFile}.bim --famFile=${plinkFile}.fam --AlleleOrder=${AlleleOrder} --chr=${chr} --SAIGEOutputFile=${SAIGEOutputFile} --minMAF=0 --minMAC=0.5 --sampleFile=${sampleFile} --GMMATmodelFile=${nullmod_prefix}.rda --varianceRatioFile=${nullmod_prefix}.varianceRatio.txt --sparseGRMFile=${sparseGRMFile} --sparseGRMSampleIDFile=${sparseGRMSampleIDFile} --groupFile=${groupFile} --maxMAC_in_groupTest=${maxMAC_in_groupTest} --maxMAF_in_groupTest=${maxMAF_in_groupTest}  --is_output_markerList_in_groupTest=${is_output_markerList_in_groupTest} --LOCO=${LOCO} --is_fastTest=${is_fastTest} --is_single_in_groupTest=${is_single_in_groupTest} --is_no_weight_in_groupTest=${is_no_weight_in_groupTest} --annotation_in_groupTest=${annotation_in_groupTest}" \
   -iimage_file="exome-seq:sjj/docker/saige_1.0.9.tar.gz" \
   --name ${jobname} \
   --instance-type ${instance_type} \
