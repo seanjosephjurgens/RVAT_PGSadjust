@@ -17,5 +17,8 @@ The _BOLT-LMM_ directory contains bash scripts used for submission of BOLT-LMM a
 
 ####################################################################################
 
+The summary statistics, including PRS weight used in our study, have been submitted to the Cardiovascular Disease Knowledge Portal (https://cvd.hugeamp.org/downloads.html). We recommend trying out the out-of-sample PRS for some traits, such as Height and LDL cholesterol.
+
+
 NB:
 The current scripts are optimized for analysis of rare and ultra-rare variation, e.i. MAF<0.1% and MAF<0.01%, in gene-based testing. The scripts in this repos are restricted to association analyses in SAIGE-GENE+ and BOLT-LMM, and do not include those for PGS construction (as investigators may use various methods to construct their PGS). Of note, we recommend trying out Leave-One-Chromosome-Out (LOCO) PGS when applying our method to low-frequency variants (e.g. MAF<1% or MAF<5%) if investigators want to avoid linkage between PGS-variants and the tested variants. For rare variation (MAF<0.1%), however, we find that LOCO scores perform similarly to all chromosome PGS (given very minimal linkage between rare and common variants).
