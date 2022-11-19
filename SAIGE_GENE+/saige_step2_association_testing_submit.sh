@@ -120,7 +120,7 @@ do
   -iin="${sparseGRMFile_path}${sparseGRMSampleIDFile}" \
   -iin="${groupFile_path}${groupFile}" \
   -icmd="step2_SPAtests.R --bedFile=${plinkFile}.bed --bimFile=${plinkFile}.bim --famFile=${plinkFile}.fam --AlleleOrder=${AlleleOrder} --chr=${chr} --SAIGEOutputFile=${SAIGEOutputFile} --minMAF=0 --minMAC=0.5 --sampleFile=${sampleFile} --GMMATmodelFile=${nullmod_prefix}.rda --varianceRatioFile=${nullmod_prefix}.varianceRatio.txt --sparseGRMFile=${sparseGRMFile} --sparseGRMSampleIDFile=${sparseGRMSampleIDFile} --groupFile=${groupFile} --maxMAC_in_groupTest=${maxMAC_in_groupTest} --maxMAF_in_groupTest=${maxMAF_in_groupTest}  --is_output_markerList_in_groupTest=${is_output_markerList_in_groupTest} --LOCO=${LOCO} --is_fastTest=${is_fastTest} --is_single_in_groupTest=${is_single_in_groupTest} --is_no_weight_in_groupTest=${is_no_weight_in_groupTest} --annotation_in_groupTest=${annotation_in_groupTest}" \
-  -iimage_file="path/to/docker/saige_1.0.9.tar.gz" \
+  -iimage_file="${project}:path/to/docker/saige_1.0.9.tar.gz" \
   --name ${jobname} \
   --instance-type ${instance_type} \
   --priority ${priority}  \
@@ -175,7 +175,7 @@ do
   -iin="${sparseGRMFile_path}${sparseGRMSampleIDFile}" \
   -iin="${groupFile_path}${groupFile}" \
   -icmd="step2_SPAtests.R --bedFile=${plinkFile}.bed --bimFile=${plinkFile}.bim --famFile=${plinkFile}.fam --AlleleOrder=${AlleleOrder} --chr=${chr} --SAIGEOutputFile=${SAIGEOutputFile} --minMAF=0 --minMAC=0.5 --sampleFile=${sampleFile} --GMMATmodelFile=${nullmod_prefix}.rda --varianceRatioFile=${nullmod_prefix}.varianceRatio.txt --sparseGRMFile=${sparseGRMFile} --sparseGRMSampleIDFile=${sparseGRMSampleIDFile} --groupFile=${groupFile} --maxMAC_in_groupTest=${maxMAC_in_groupTest} --maxMAF_in_groupTest=${maxMAF_in_groupTest}  --is_output_markerList_in_groupTest=${is_output_markerList_in_groupTest} --LOCO=${LOCO} --is_fastTest=${is_fastTest} --is_single_in_groupTest=${is_single_in_groupTest} --is_no_weight_in_groupTest=${is_no_weight_in_groupTest} --annotation_in_groupTest=${annotation_in_groupTest}" \
-  -iimage_file="path/to/docker/saige_1.0.9.tar.gz" \
+  -iimage_file="${project}:path/to/docker/saige_1.0.9.tar.gz" \
   --name ${jobname} \
   --instance-type ${instance_type} \
   --priority ${priority}  \
@@ -222,7 +222,7 @@ do
   -iin="${sparseGRMFile_path}${sparseGRMSampleIDFile}" \
   -iin="${groupFile_path}${groupFile}" \
   -icmd="step2_SPAtests.R --bedFile=${plinkFile}.bed --bimFile=${plinkFile}.bim --famFile=${plinkFile}.fam --AlleleOrder=${AlleleOrder} --chr=${chr} --SAIGEOutputFile=${SAIGEOutputFile} --minMAF=0 --minMAC=0.5 --sampleFile=${sampleFile} --GMMATmodelFile=${nullmod_prefix}.rda --varianceRatioFile=${nullmod_prefix}.varianceRatio.txt --sparseGRMFile=${sparseGRMFile} --sparseGRMSampleIDFile=${sparseGRMSampleIDFile} --groupFile=${groupFile} --maxMAC_in_groupTest=${maxMAC_in_groupTest} --maxMAF_in_groupTest=${maxMAF_in_groupTest}  --is_output_markerList_in_groupTest=${is_output_markerList_in_groupTest} --LOCO=${LOCO} --is_fastTest=${is_fastTest} --is_single_in_groupTest=${is_single_in_groupTest} --is_no_weight_in_groupTest=${is_no_weight_in_groupTest} --annotation_in_groupTest=${annotation_in_groupTest}" \
-  -iimage_file="path/to/docker/saige_1.0.9.tar.gz" \
+  -iimage_file="${project}:path/to/docker/saige_1.0.9.tar.gz" \
   --name ${jobname} \
   --instance-type ${instance_type} \
   --priority ${priority}  \
@@ -279,7 +279,7 @@ do
   -iin="${sparseGRMFile_path}${sparseGRMSampleIDFile}" \
   -iin="${groupFile_path}${groupFile}" \
   -icmd="step2_SPAtests.R --bedFile=${plinkFile}.bed --bimFile=${plinkFile}.bim --famFile=${plinkFile}.fam --AlleleOrder=${AlleleOrder} --chr=${chr} --SAIGEOutputFile=${SAIGEOutputFile} --minMAF=0 --minMAC=0.5 --sampleFile=${sampleFile} --GMMATmodelFile=${nullmod_prefix}.rda --varianceRatioFile=${nullmod_prefix}.varianceRatio.txt --sparseGRMFile=${sparseGRMFile} --sparseGRMSampleIDFile=${sparseGRMSampleIDFile} --groupFile=${groupFile} --maxMAC_in_groupTest=${maxMAC_in_groupTest} --maxMAF_in_groupTest=${maxMAF_in_groupTest}  --is_output_markerList_in_groupTest=${is_output_markerList_in_groupTest} --LOCO=${LOCO} --is_fastTest=${is_fastTest} --is_single_in_groupTest=${is_single_in_groupTest} --is_no_weight_in_groupTest=${is_no_weight_in_groupTest} --annotation_in_groupTest=${annotation_in_groupTest}" \
-  -iimage_file="path/to/docker/saige_1.0.9.tar.gz" \
+  -iimage_file="${project}:path/to/docker/saige_1.0.9.tar.gz" \
   --name ${jobname} \
   --instance-type ${instance_type} \
   --priority ${priority}  \
@@ -326,7 +326,7 @@ do
   -iin="${sparseGRMFile_path}${sparseGRMSampleIDFile}" \
   -iin="${groupFile_path}${groupFile}" \
   -icmd="step2_SPAtests.R --bedFile=${plinkFile}.bed --bimFile=${plinkFile}.bim --famFile=${plinkFile}.fam --AlleleOrder=${AlleleOrder} --chr=${chr} --SAIGEOutputFile=${SAIGEOutputFile} --minMAF=0 --minMAC=0.5 --sampleFile=${sampleFile} --GMMATmodelFile=${nullmod_prefix}.rda --varianceRatioFile=${nullmod_prefix}.varianceRatio.txt --sparseGRMFile=${sparseGRMFile} --sparseGRMSampleIDFile=${sparseGRMSampleIDFile} --groupFile=${groupFile} --maxMAC_in_groupTest=${maxMAC_in_groupTest} --maxMAF_in_groupTest=${maxMAF_in_groupTest}  --is_output_markerList_in_groupTest=${is_output_markerList_in_groupTest} --LOCO=${LOCO} --is_fastTest=${is_fastTest} --is_single_in_groupTest=${is_single_in_groupTest} --is_no_weight_in_groupTest=${is_no_weight_in_groupTest} --annotation_in_groupTest=${annotation_in_groupTest}" \
-  -iimage_file="path/to/docker/saige_1.0.9.tar.gz" \
+  -iimage_file="${project}:path/to/docker/saige_1.0.9.tar.gz" \
   --name ${jobname} \
   --instance-type ${instance_type} \
   --priority ${priority}  \
