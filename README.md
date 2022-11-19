@@ -17,7 +17,7 @@ The _BOLT-LMM_ directory contains bash scripts used for submission of BOLT-LMM a
 
 ####################################################################################
 
-The summary statistics, including PRS weight used in our study, have been submitted to the Cardiovascular Disease Knowledge Portal (https://cvd.hugeamp.org/downloads.html). We recommend trying out the out-of-sample PRS for some traits, such as Height and LDL cholesterol.
+The summary statistics, including PRS weight used in our study, have been submitted to the Cardiovascular Disease Knowledge Portal (https://cvd.hugeamp.org/downloads.html). We recommend trying out the out-of-sample PRS for some traits using SAIGE-GENE+; goed traits include Height, LDL cholesterol and HDL cholesterol.
 
 
 NB 1: The scripts in this repos are restricted to association analyses in SAIGE-GENE+ and BOLT-LMM (as these are nicely implementable in the UKB RAP); no scripts for PGS construction are currently contained in the repos (as investigators may use various methods to construct their PGS) although we have submitted all PRS weights used in our study to the Cardiovascular Disease Knowledge Portal for download (https://cvd.hugeamp.org/downloads.html)! 
