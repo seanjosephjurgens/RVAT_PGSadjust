@@ -3,7 +3,7 @@
 # Analyses run on Swiss Army Knife on the UKB RAP
 
 PROJECT="RAP_PROJECT_NAME"
-TRAIT_NUM="TRAIT_NUMBER" # the integer trait number of 65 traits assessed in the current study
+TRAIT_NUM=NUM # the integer trait number of 65 traits assessed in the current study
 mkdir tmp/
 cd tmp/
 
