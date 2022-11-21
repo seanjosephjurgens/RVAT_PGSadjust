@@ -7,7 +7,7 @@ PROJECT="RAP_PROJECT_NAME"
 -iin="${PROJECT}:path/to/array_data_for_saige/ukbb200k_all_commonvariantsfromarray_chrall_and_rarevariantsfromWES_chr22_geno0.01.bim" \
 -iin="${PROJECT}:path/to/array_data_for_saige/ukbb200k_all_commonvariantsfromarray_chrall_and_rarevariantsfromWES_chr22_geno0.01.fam" \
 -icmd="createSparseGRM.R --plinkFile=ukbb200k_all_commonvariantsfromarray_chrall_and_rarevariantsfromWES_chr22_geno0.01 --nThreads=94  --outputPrefix=saige_sparse_matrix --numRandomMarkerforSparseKin=5000 --relatednessCutoff=0.05" \
--iimage_file="${RAP_PROJECT_NAME}:path/to/docker/saige_1.0.9.tar.gz" \
+-iimage_file="${PROJECT}:path/to/docker/saige_1.0.9.tar.gz" \
 --name saige_step0 \
 --instance-type mem2_ssd1_v2_x96 \
 --priority normal \
