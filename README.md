@@ -17,6 +17,9 @@ The _SAIGE_GENE+_ directory contains bash scripts used for submission of SAIGE-G
 The _BOLT-LMM_ directory contains bash scripts used for submission of BOLT-LMM analyses on the UKB DNAnexus RAP.
 
 
+The _PRScs_ directory contains general bash scripts to run the PRScs algorithm for construction of genome-wide polygenic scores, as applied in our study.
+
+
 ####################################################################################
 
 The summary statistics, including the PRS weights used in our study (and summary stats for all main GWAS and RVAS), have been submitted to the Cardiovascular Disease Knowledge Portal (https://cvd.hugeamp.org/downloads.html). We recommend trying out the out-of-sample PRS for some traits using SAIGE-GENE+; good traits to test include Height, LDL cholesterol and HDL cholesterol.
