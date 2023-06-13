@@ -1,0 +1,1 @@
+The above file contains the scripts used to extract results and compute the main test statistics mentioned throughout our paper. In the added example, the SAIGE-GENE+ results are assessed, but code for comparison tests were highly similar for other softwares assessed in our work. 
