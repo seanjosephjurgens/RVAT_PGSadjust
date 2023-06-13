@@ -150,7 +150,7 @@ echo "   BUSY WITH CHROMOSOME ${chr}"
     --minMAC 20 \
     --print-pheno \
     --bsize 200 \
-    --out ../REGENIE_STEP2_${TRAIT}_PRSclumped
+    --out ../REGENIE_STEP2_${TRAIT}_PRSclumped_chr${chr}
 done
 
 echo "DONE WITH ANALYSIS."
