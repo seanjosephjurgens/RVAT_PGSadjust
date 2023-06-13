@@ -101,8 +101,9 @@ invnorm_pulse_rate
 invnorm_weight_kg
 invnorm_height_cm
 )
-phenoList=$(printf ",%s" "${traits[@]}")
-phenoList=${phenoList:1}
+#phenoList=$(printf ",%s" "${traits[@]}")
+#phenoList=${phenoList:1}
+TRAIT=${traits[TRAIT_NUM-1]}
 
 echo "STARTING ANALYSIS"
 
@@ -120,7 +121,7 @@ echo "STARTING REGENIE STEP1"
     --covarColList sequencing_batch,genotyping_array,Inferred_Gender,enroll_age,enroll_age2,PC1,PC2,PC3,PC4,PC5,PC6,PC7,PC8,PC9,PC10,PC11,PC12,PC13,PC14,PC15,PC16,PC17,PC18,PC19,PC20 \
     --catCovarList sequencing_batch,genotyping_array,Inferred_Gender \
     --phenoFile ${PHENO_FILENAME} \
-    --phenoColList ${phenoList} \
+    --phenoColList ${TRAIT} \
     --bsize 1000 \
     --out ${STEP1_OUTPUT}
 
@@ -137,7 +138,7 @@ echo "   BUSY WITH CHROMOSOME ${chr}"
     --covarColList sequencing_batch,genotyping_array,Inferred_Gender,enroll_age,enroll_age2,PC1,PC2,PC3,PC4,PC5,PC6,PC7,PC8,PC9,PC10,PC11,PC12,PC13,PC14,PC15,PC16,PC17,PC18,PC19,PC20 \
     --catCovarList sequencing_batch,genotyping_array,Inferred_Gender \
     --phenoFile ${PHENO_FILENAME} \
-    --phenoColList ${phenoList} \
+    --phenoColList ${TRAIT} \
     --pred ${STEP1_OUTPUT}_pred.list \
     --anno-file ${ANNO_FILE} \
     --set-list ${SETLIST_FILE} \
@@ -148,7 +149,7 @@ echo "   BUSY WITH CHROMOSOME ${chr}"
     --minMAC 20 \
     --print-pheno \
     --bsize 200 \
-    --out ../STEP2_output
+    --out ../REGENIE_STEP2_${TRAIT}_noPRS
 done
 
 echo "DONE WITH ANALYSIS."
