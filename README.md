@@ -6,10 +6,10 @@ Some example scripts for rare variant analysis within the UK Biobank DNAnexus RA
 ## Scripts
 The scripts are made for use on the UKB DNAnexus RAP -- Cloud-based platform (with some adjustments for file paths and names). Please read the hashes in these files as they may refer to other files that need to be made to run the analyses (such as phenotype files).
 
+* The ```PRScs``` directory contains general bash scripts to run the PRScs algorithm for construction of genome-wide polygenic scores, as applied in our study.
 * The ```genotype_array_file_forGRM``` file contains scripts used for pruning and merging of the genotyping array data for use in the genetic relatedness matrices in the mixed effects models.
 * The ```SAIGE_GENE+``` directory contains bash scripts used for submission of SAIGE-GENE+ analyses on the UKB DNAnexus RAP, utilizing speed-optimized sparse mixed-effects models.
 * The ```BOLT-LMM``` directory contains bash scripts used for submission of BOLT-LMM analyses on the UKB DNAnexus RAP.
-* The ```PRScs``` directory contains general bash scripts to run the PRScs algorithm for construction of genome-wide polygenic scores, as applied in our study.
 
 ## Summary statistcs
 The summary statistics, including the PRS weights used in our study (and summary stats for all main GWAS and RVAS), have been submitted to the Cardiovascular Disease Knowledge Portal (https://cvd.hugeamp.org/downloads.html). We recommend trying out the out-of-sample PRS for some traits using SAIGE-GENE+; good traits to test include Height, LDL cholesterol and HDL cholesterol.
