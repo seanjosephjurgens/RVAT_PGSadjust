@@ -13,6 +13,8 @@ The scripts are made for use on the UKB DNAnexus RAP -- Cloud-based platform (wi
 * The ```BOLT-LMM``` directory contains bash scripts used for submission of BOLT-LMM analyses on the UKB DNAnexus RAP.
 * The ```Extract_results``` directory contains a Jupyter Notebook used to extract results for SAIGE-GENE+ analyses, and the script for performing the statistical tests (comparison of various models); the second part - the comparison code - is representative for the other tools assessed!
 
+** Our primary analyses were performed using a custom RVAT softare package ```UKBB_200KWES``` - created mainly for internal use, although the tool (and therefore also the source code used in our paper) is also publicly available on our other GitHub repo: https://github.com/seanjosephjurgens/UKBB_200KWES_CVD/tree/v1.2 . 
+
 ## Summary statistcs
 The summary statistics, including the PRS weights used in our study (and summary stats for all main GWAS and RVAS), have been submitted to the Cardiovascular Disease Knowledge Portal (https://cvd.hugeamp.org/downloads.html). We recommend trying out the out-of-sample PRS for some traits using SAIGE-GENE+; good traits to test include Height, LDL cholesterol and HDL cholesterol.
 
