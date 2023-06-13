@@ -136,8 +136,8 @@ echo "   BUSY WITH CHROMOSOME ${chr}"
     --step 2 \
     --pgen ${WES_PLINK_PREFIX}${chr}${WES_PLINK_SUFFIX} \
     --covarFile ${PHENO_FILENAME} \
-    --covarColList sequencing_batch,genotyping_array,Inferred_Gender,enroll_age,enroll_age2,PC1,PC2,PC3,PC4,PC5,PC6,PC7,PC8,PC9,PC10,PC11,PC12,PC13,PC14,PC15,PC16,PC17,PC18,PC19,PC20 \
-    --catCovarList sequencing_batch,genotyping_array,Inferred_Gender \
+    --covarColList PRSclumped_${TRAIT},sequencing_batch,genotyping_array,Inferred_Gender,enroll_age,enroll_age2,PC1,PC2,PC3,PC4,PC5,PC6,PC7,PC8,PC9,PC10,PC11,PC12,PC13,PC14,PC15,PC16,PC17,PC18,PC19,PC20 \
+    --catCovarList PRSclumped_${TRAIT},sequencing_batch,genotyping_array,Inferred_Gender \
     --phenoFile ${PHENO_FILENAME} \
     --phenoColList ${TRAIT} \
     --pred ${STEP1_OUTPUT}_pred.list \
