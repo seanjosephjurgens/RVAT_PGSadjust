@@ -145,7 +145,7 @@ echo "   BUSY WITH CHROMOSOME ${chr}"
     --aaf-file ${AAF_FILE} \
     --extract-sets ${SETINCLUSION_FILE} \
     --mask-def ${MASK_FILE} \
-    --aaf-bins 0.0004 \
+    --aaf-bins 0.0001 \
     --minMAC 20 \
     --print-pheno \
     --bsize 200 \
